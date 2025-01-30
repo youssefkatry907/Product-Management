@@ -9,9 +9,10 @@ export const UserSchema = new Schema({
   updatedAt: { type: Date, default: Date.now() },
 });
 
+const saltRounds = parseInt(process.env.SALT_ROUNDS || '10');
 UserSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password,process.env.SALT_ROUNDS);       
+  if (this.password) {
+    this.password = await bcrypt.hash(this.password, saltRounds);     
   }
   next();
 });

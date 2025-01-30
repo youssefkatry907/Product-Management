@@ -4,15 +4,14 @@ import { AuthController } from './controllers/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './helpers/auth.guard';
 import { RbacGuard } from './rbac/rbac.guard';
-import { DatabaseModule } from '../db.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UserSchema } from './schemas/user.schema';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-// console.log('process.env.JWT_SECRET', process.env.JWT_SECRET);
-
 @Module({
   imports: [
-    DatabaseModule,
+    MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }]),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,

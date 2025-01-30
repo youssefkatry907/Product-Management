@@ -3,16 +3,32 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
+import { IS_PUBLIC_KEY } from '../../shared/decorators/public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService) { }
+    constructor(private jwtService: JwtService, private reflector: Reflector) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
+
+        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+
+        if (isPublic) {
+            return true;
+        }
+
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new UnauthorizedException('No token provided');
+            throw new UnauthorizedException({
+                success: false,
+                statusCode: 401,
+                message: 'No token provided',
+            });
         }
         try {
             const payload = await this.jwtService.verifyAsync(
@@ -23,7 +39,11 @@ export class AuthGuard implements CanActivate {
             );
             request['user'] = payload;
         } catch {
-            throw new UnauthorizedException('Invalid token');
+            throw new UnauthorizedException({
+                success: false,
+                statusCode: 401,
+                message: 'Invalid token',
+            });
         }
         return true;
     }

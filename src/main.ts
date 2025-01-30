@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 
-// console.log('process.env.PORT', process.env.PORT);
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -19,6 +18,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+
   await app.listen(process.env.PORT ?? 3000);
+  console.log(`Application is running on PORT: ${process.env.PORT}`);
 }
 bootstrap();

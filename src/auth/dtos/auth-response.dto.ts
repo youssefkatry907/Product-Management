@@ -1,7 +1,14 @@
 import { ObjectId } from "mongoose";
+
 export class AuthResponseDto {
-    id: ObjectId;
-    email: string;
-    role: string;
-    token?: string;
+    success: boolean;
+    statusCode: number;
+    message: string;
+
+    data?: {
+        id: ObjectId;
+        email: string;
+        role: string;
+        token?: string;
+    };
 }
