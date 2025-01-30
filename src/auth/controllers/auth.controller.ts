@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthRequestDto } from '../dtos/auth-request.dto';
 import { AuthResponseDto } from '../dtos/auth-response.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Permission } from '../rbac/permissions.decorator';
+import { Permission } from '../../shared/rbac/permissions.decorator';
 import { Public } from 'src/shared/decorators/public.decorator';
 
 @Public()
