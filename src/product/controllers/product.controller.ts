@@ -1,0 +1,54 @@
+import { Controller, Post, Get, Patch, Body, Delete, Query, Param } from '@nestjs/common';
+import { ProductService } from '../services/product.service';
+import { ProductRequestDto } from '../dtos/create-product.dto';
+import { ProductResponseDto } from '../dtos/product-response.dto';
+import { UpdateProductDto } from '../dtos/update-product.dto';
+import { ListAllProductsDto } from '../dtos/list-all-products.dto';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { Permission } from '../../shared/rbac/permissions.decorator';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { RbacGuard } from 'src/shared/guards/rbac.guard';
+import { UseGuards } from '@nestjs/common';
+
+@ApiTags('product')
+@ApiBearerAuth('JWT-auth')
+@Controller('api/v1/product')
+export class ProductController {
+    constructor(private productService: ProductService) { }
+
+    @Post('createProduct')
+    @UseGuards(AuthGuard, RbacGuard)
+    @Permission('product:create')
+    async createProduct(@Body() createProductDto: ProductRequestDto): Promise<ProductResponseDto> {
+        return this.productService.create(createProductDto);
+    }
+
+    @Get('listAllProducts')
+    @Permission('product:get')
+    async listAllProducts(@Query('page') page = 0, @Query('limit') limit = 10): Promise<ListAllProductsDto> {
+        return this.productService.findAll(page, limit);
+    }
+
+    @Get('getProduct/:id')
+    @Permission('product:get')
+    async getProduct(@Param('id') id: string): Promise<ProductResponseDto> {
+        return this.productService.findOne(id);
+    }
+
+    @Patch('updateProduct/:id')
+    @UseGuards(AuthGuard, RbacGuard)
+    @Permission('product:update')
+    async updateProduct(
+        @Param('id') id: string,
+        @Body() updateProductBody: UpdateProductDto,
+    ): Promise<ProductResponseDto> {
+        return this.productService.update(id, updateProductBody);
+    }
+
+    @Delete('deleteProduct/:id')
+    @UseGuards(AuthGuard, RbacGuard)
+    @Permission('product:delete')
+    async deleteProduct(@Param('id') id: string): Promise<ProductResponseDto> {
+        return this.productService.delete(id);
+    }
+}

@@ -3,18 +3,18 @@ import rbac from 'easy-rbac';
 export default rbac.create({
   admin: {
     can: [
-      'products:create',
-      'products:read',
-      'products:update',
-      'products:delete',
-      'users:read',
+      'product:create',
+      'product:get',
+      'product:update',
+      'product:delete',
+      'user:get',
     ],
   },
   user: {
     can: [
       'auth:register',
       'auth:login',
-      'products:read',
+      'product:get',
     ],
   },
 });
