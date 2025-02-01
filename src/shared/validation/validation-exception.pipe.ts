@@ -1,4 +1,8 @@
-import { ValidationPipe, BadRequestException, HttpStatus } from '@nestjs/common';
+import {
+  ValidationPipe,
+  BadRequestException,
+  HttpStatus,
+} from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 
 export const GlobalValidationProvider = {
@@ -9,7 +13,9 @@ export const GlobalValidationProvider = {
     transform: true,
     exceptionFactory: (errors) => {
       const firstError = errors[0]; // Get first validation error
-      const message = firstError.constraints ? Object.values(firstError.constraints)[0] : 'Validation error';
+      const message = firstError.constraints
+        ? Object.values(firstError.constraints)[0]
+        : 'Validation error';
       return new BadRequestException({
         success: false,
         statusCode: HttpStatus.BAD_REQUEST,

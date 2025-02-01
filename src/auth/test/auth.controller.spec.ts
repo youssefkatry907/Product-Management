@@ -20,8 +20,8 @@ describe('AuthController', () => {
       providers: [
         { provide: AuthService, useValue: mockAuthService },
         { provide: JwtService, useValue: { sign: jest.fn() } },
-        { provide: Reflector, useValue: new Reflector() }
-      ]
+        { provide: Reflector, useValue: new Reflector() },
+      ],
     }).compile();
 
     authController = module.get<AuthController>(AuthController);

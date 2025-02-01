@@ -1,4 +1,13 @@
-import { Controller, Post, Get, Patch, Body, Delete, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Body,
+  Delete,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 import { ProductRequestDto } from '../dtos/create-product.dto';
 import { ProductResponseDto } from '../dtos/product-response.dto';
@@ -14,41 +23,46 @@ import { UseGuards } from '@nestjs/common';
 @ApiBearerAuth('JWT-auth')
 @Controller('api/v1/product')
 export class ProductController {
-    constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
-    @Post('createProduct')
-    @UseGuards(AuthGuard, RbacGuard)
-    @Permission('product:create')
-    async createProduct(@Body() createProductDto: ProductRequestDto): Promise<ProductResponseDto> {
-        return this.productService.create(createProductDto);
-    }
+  @Post('createProduct')
+  @UseGuards(AuthGuard, RbacGuard)
+  @Permission('product:create')
+  async createProduct(
+    @Body() createProductDto: ProductRequestDto,
+  ): Promise<ProductResponseDto> {
+    return this.productService.create(createProductDto);
+  }
 
-    @Get('listAllProducts')
-    @Permission('product:get')
-    async listAllProducts(@Query('page') page = 0, @Query('limit') limit = 10): Promise<ListAllProductsDto> {
-        return this.productService.findAll(page, limit);
-    }
+  @Get('listAllProducts')
+  @Permission('product:get')
+  async listAllProducts(
+    @Query('page') page = 0,
+    @Query('limit') limit = 10,
+  ): Promise<ListAllProductsDto> {
+    return this.productService.findAll(page, limit);
+  }
 
-    @Get('getProduct/:id')
-    @Permission('product:get')
-    async getProduct(@Param('id') id: string): Promise<ProductResponseDto> {
-        return this.productService.findOne(id);
-    }
+  @Get('getProduct/:id')
+  @Permission('product:get')
+  async getProduct(@Param('id') id: string): Promise<ProductResponseDto> {
+    return this.productService.findOne(id);
+  }
 
-    @Patch('updateProduct/:id')
-    @UseGuards(AuthGuard, RbacGuard)
-    @Permission('product:update')
-    async updateProduct(
-        @Param('id') id: string,
-        @Body() updateProductBody: UpdateProductDto,
-    ): Promise<ProductResponseDto> {
-        return this.productService.update(id, updateProductBody);
-    }
+  @Patch('updateProduct/:id')
+  @UseGuards(AuthGuard, RbacGuard)
+  @Permission('product:update')
+  async updateProduct(
+    @Param('id') id: string,
+    @Body() updateProductBody: UpdateProductDto,
+  ): Promise<ProductResponseDto> {
+    return this.productService.update(id, updateProductBody);
+  }
 
-    @Delete('deleteProduct/:id')
-    @UseGuards(AuthGuard, RbacGuard)
-    @Permission('product:delete')
-    async deleteProduct(@Param('id') id: string): Promise<ProductResponseDto> {
-        return this.productService.delete(id);
-    }
+  @Delete('deleteProduct/:id')
+  @UseGuards(AuthGuard, RbacGuard)
+  @Permission('product:delete')
+  async deleteProduct(@Param('id') id: string): Promise<ProductResponseDto> {
+    return this.productService.delete(id);
+  }
 }

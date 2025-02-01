@@ -10,17 +10,16 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([{ name: 'Products', schema: ProductSchema }]),
-        JwtModule.register({
-            global: true,
-            secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '15d' },
-        }),
-    ],
-    providers: [ProductService, AuthGuard, RbacGuard],
-    controllers: [ProductController],
-    exports: [ProductService],
+  imports: [
+    MongooseModule.forFeature([{ name: 'Products', schema: ProductSchema }]),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '15d' },
+    }),
+  ],
+  providers: [ProductService, AuthGuard, RbacGuard],
+  controllers: [ProductController],
+  exports: [ProductService],
 })
-
 export class ProductModule {}

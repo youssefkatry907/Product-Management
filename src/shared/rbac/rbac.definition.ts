@@ -11,10 +11,6 @@ export default rbac.create({
     ],
   },
   user: {
-    can: [
-      'auth:register',
-      'auth:login',
-      'product:get',
-    ],
+    can: ['auth:register', 'auth:login', 'product:get'],
   },
 });

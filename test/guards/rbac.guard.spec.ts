@@ -18,7 +18,7 @@ describe('RbacGuard', () => {
 
   it('should allow access if user has required role', () => {
     jest.spyOn(reflector, 'get').mockReturnValue(['admin']);
-    
+
     const mockContext = {
       switchToHttp: () => ({
         getRequest: () => ({ user: { roles: ['admin'] } }),
@@ -30,7 +30,7 @@ describe('RbacGuard', () => {
 
   it('should deny access if user does not have required role', () => {
     (reflector.get as jest.Mock).mockReturnValue(['admin']);
-    
+
     const mockContext = {
       switchToHttp: () => ({
         getRequest: () => ({ user: { roles: ['user'] } }),

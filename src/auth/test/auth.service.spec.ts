@@ -9,12 +9,11 @@ import { User } from '../schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 jest.mock('bcrypt');
 
-
 const mockUser = {
   _id: 'mockUserId',
-  email: "test@example.com",
-  password: "Test1234",
-}
+  email: 'test@example.com',
+  password: 'Test1234',
+};
 
 const mockUserModel = {
   findOne: jest.fn().mockResolvedValue(mockUser.email),
@@ -49,8 +48,10 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should create a new user and return success response', async () => {
-      const authRequest: AuthRequestDto = { email: 'test@example.com', password: 'Test1234' };
-
+      const authRequest: AuthRequestDto = {
+        email: 'test@example.com',
+        password: 'Test1234',
+      };
 
       jest.spyOn(model, 'findOne').mockResolvedValue(null);
       jest.spyOn(model, 'create').mockResolvedValue(mockUser as any);
@@ -61,17 +62,30 @@ describe('AuthService', () => {
     });
 
     it('should throw ConflictException if user already exists', async () => {
-      const authRequest: AuthRequestDto = { email: 'test@example.com', password: 'Test1234' };
+      const authRequest: AuthRequestDto = {
+        email: 'test@example.com',
+        password: 'Test1234',
+      };
       jest.spyOn(model, 'findOne').mockResolvedValue(mockUser.email);
 
-      await expect(authService.register(authRequest)).rejects.toThrow(ConflictException);
+      await expect(authService.register(authRequest)).rejects.toThrow(
+        ConflictException,
+      );
     });
   });
 
   describe('login', () => {
     it('should return login response with JWT token', async () => {
-      const authRequest: AuthRequestDto = { email: 'test@example.com', password: 'Test1234' };
-      const mockUser = { _id: 'mockUserId', email: authRequest.email, password: await bcrypt.hash('Test1234', 10), role: 'user' };
+      const authRequest: AuthRequestDto = {
+        email: 'test@example.com',
+        password: 'Test1234',
+      };
+      const mockUser = {
+        _id: 'mockUserId',
+        email: authRequest.email,
+        password: await bcrypt.hash('Test1234', 10),
+        role: 'user',
+      };
 
       mockUserModel.findOne = jest.fn().mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockImplementation(async () => true);
@@ -81,10 +95,15 @@ describe('AuthService', () => {
     });
 
     it('should throw HttpException if credentials are incorrect', async () => {
-      const authRequest: AuthRequestDto = { email: 'wrong@example.com', password: 'Wrong1234' };
+      const authRequest: AuthRequestDto = {
+        email: 'wrong@example.com',
+        password: 'Wrong1234',
+      };
       mockUserModel.findOne = jest.fn().mockResolvedValue(null);
 
-      await expect(authService.login(authRequest)).rejects.toThrow(HttpException);
+      await expect(authService.login(authRequest)).rejects.toThrow(
+        HttpException,
+      );
     });
   });
 });

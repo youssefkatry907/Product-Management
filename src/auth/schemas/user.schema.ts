@@ -12,7 +12,7 @@ export const UserSchema = new Schema({
 const saltRounds = parseInt(process.env.SALT_ROUNDS || '10');
 UserSchema.pre('save', async function (next) {
   if (this.password) {
-    this.password = await bcrypt.hash(this.password, saltRounds);     
+    this.password = await bcrypt.hash(this.password, saltRounds);
   }
   next();
 });

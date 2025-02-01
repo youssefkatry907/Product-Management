@@ -6,7 +6,6 @@ import { Product } from '../schemas/product.schema';
 import { ProductRequestDto } from '../dtos/create-product.dto';
 import { UpdateProductDto } from '../dtos/update-product.dto';
 
-
 const mockProduct = {
   _id: '60d21b9667d0d8992e610c85',
   name: 'New Product',
@@ -111,7 +110,10 @@ describe('ProductService', () => {
     it('should update a product', async () => {
       const updateDto: UpdateProductDto = { name: 'Updated Product' };
 
-      const result = await service.update('679bb8724f5eebcf5d6060ff', updateDto);
+      const result = await service.update(
+        '679bb8724f5eebcf5d6060ff',
+        updateDto,
+      );
       expect(result.success).toBeTruthy();
       expect(result.data?.name).toEqual(mockProduct.name);
     });

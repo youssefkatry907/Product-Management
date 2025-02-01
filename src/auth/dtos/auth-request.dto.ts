@@ -1,17 +1,17 @@
-import { 
-  IsEmail, 
-  IsString, 
-  IsNotEmpty, 
-  MinLength, 
-  MaxLength, 
-  IsOptional, 
-  IsEnum 
+import {
+  IsEmail,
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  MaxLength,
+  IsOptional,
+  IsEnum,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export enum UserRole {
   USER = 'user',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 export class AuthRequestDto {
@@ -28,7 +28,9 @@ export class AuthRequestDto {
   @IsString({ message: 'Password must be a string' })
   password: string;
 
-  @Transform(({ value }) => (typeof value === 'string' ? value.toLowerCase() : value))
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.toLowerCase() : value,
+  )
   @IsOptional()
   @IsEnum(UserRole, { message: 'Role must be either "user" or "admin"' })
   @IsString({ message: 'Role must be a string' })

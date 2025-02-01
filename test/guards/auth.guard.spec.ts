@@ -12,7 +12,11 @@ describe('AuthGuard', () => {
   });
 
   it('should allow access if JWT is valid', () => {
-    const mockContext = { switchToHttp: () => ({ getRequest: () => ({ headers: { authorization: 'Bearer token' } }) }) } as ExecutionContext;
+    const mockContext = {
+      switchToHttp: () => ({
+        getRequest: () => ({ headers: { authorization: 'Bearer token' } }),
+      }),
+    } as ExecutionContext;
     expect(guard.canActivate(mockContext)).toBe(true);
   });
 });

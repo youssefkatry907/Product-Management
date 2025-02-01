@@ -15,7 +15,9 @@ export class AuthController {
   @Post('register')
   @Permission('auth:register')
   @ApiResponse({ type: AuthResponseDto })
-  async register(@Body() registerUserDto: AuthRequestDto): Promise<AuthResponseDto> {
+  async register(
+    @Body() registerUserDto: AuthRequestDto,
+  ): Promise<AuthResponseDto> {
     return this.authService.register(registerUserDto);
   }
 
