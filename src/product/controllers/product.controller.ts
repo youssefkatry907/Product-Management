@@ -13,7 +13,7 @@ import { ProductRequestDto } from '../dtos/create-product.dto';
 import { ProductResponseDto } from '../dtos/product-response.dto';
 import { UpdateProductDto } from '../dtos/update-product.dto';
 import { ListAllProductsDto } from '../dtos/list-all-products.dto';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Permission } from '../../shared/rbac/permissions.decorator';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { RbacGuard } from '../../shared/guards/rbac.guard';
@@ -23,11 +23,13 @@ import { UseGuards } from '@nestjs/common';
 @ApiBearerAuth('JWT-auth')
 @Controller('api/v1/product')
 export class ProductController {
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) { }
 
   @Post('createProduct')
   @UseGuards(AuthGuard, RbacGuard)
   @Permission('product:create')
+  @ApiBody({ type: ProductRequestDto, description: 'Product creation' })
+  @ApiResponse({ type: ProductResponseDto })
   async createProduct(
     @Body() createProductDto: ProductRequestDto,
   ): Promise<ProductResponseDto> {
@@ -36,6 +38,7 @@ export class ProductController {
 
   @Get('listAllProducts')
   @Permission('product:get')
+  @ApiResponse({ type: ListAllProductsDto })
   async listAllProducts(
     @Query('page') page = 0,
     @Query('limit') limit = 10,
@@ -45,6 +48,7 @@ export class ProductController {
 
   @Get('getProduct/:id')
   @Permission('product:get')
+  @ApiResponse({ type: ProductResponseDto })
   async getProduct(@Param('id') id: string): Promise<ProductResponseDto> {
     return this.productService.findOne(id);
   }
@@ -52,6 +56,8 @@ export class ProductController {
   @Patch('updateProduct/:id')
   @UseGuards(AuthGuard, RbacGuard)
   @Permission('product:update')
+  @ApiBody({ type: UpdateProductDto, description: 'Product update' })
+  @ApiResponse({ type: ProductResponseDto })
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductBody: UpdateProductDto,

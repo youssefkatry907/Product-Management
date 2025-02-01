@@ -2,8 +2,7 @@
 
 ##  Introduction :
  - This was my Technical Assessment for Backend Engineer position **[@Unique Destination Travel Network](https://www.linkedin.com/company/unique-destination-travel-network/posts/?feedView=all)** company
- - you can access the task from here: [Assessment](https://drive.google.com/file/d/1i1-G4E77-ITegHgsJwp9eH8TrT-J3Jmr/view?usp=sharing). 
- - Postman collection: [Postman collection](https://drive.google.com/file/d/1KW0It53QBZxWlU4Q1unSBGJazyhoHJwZ/view?usp=sharing). <br><br>
+ - you can access the task from here: [Assessment](https://drive.google.com/file/d/1WhMnUgWS0S7Dm4bX6lMvLkbp4rSh5HeH/view?usp=sharing). 
 
 ## Description
 The **Product Management APP** is a backend service built with **NestJS**, **MongoDB**, and **JWT Authentication**. It provides functionalities for managing products, users, and authentication mechanisms.
@@ -48,9 +47,9 @@ npm install
 ## Environment Setup
 Create a `.env` file in the root directory and configure the following variables:
 ```
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/product_management
-JWT_SECRET=your_secret_key
+PORT= 3333
+DB_URL = your_DB_URL || mongodb://localhost:27017/product_management
+JWT_SECRET = your_secret_key
 ```
 
 ## Running the Application
@@ -145,10 +144,8 @@ npm run format  # Format the code
 ---
 
 <br><br>
-
-<br><br>
-## Notes: 
-- You can run the project using two options:
+## Notes:
+  - Only the admin can Create, update & delete products. 
   - Ensure MongoDB is running before starting the application.
   - Use Postman or similar tools to test API endpoints.
   - Keep your JWT secret key safe and do not expose it publicly.
