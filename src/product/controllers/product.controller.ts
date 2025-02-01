@@ -6,8 +6,8 @@ import { UpdateProductDto } from '../dtos/update-product.dto';
 import { ListAllProductsDto } from '../dtos/list-all-products.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Permission } from '../../shared/rbac/permissions.decorator';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { RbacGuard } from 'src/shared/guards/rbac.guard';
+import { AuthGuard } from '../../shared/guards/auth.guard';
+import { RbacGuard } from '../../shared/guards/rbac.guard';
 import { UseGuards } from '@nestjs/common';
 
 @ApiTags('product')

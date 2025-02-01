@@ -24,8 +24,7 @@ export class ProductService {
                 message: 'Product already exists'
             });
         }
-        const newProduct = new this.productModel(productRequest);
-        await newProduct.save();
+        const newProduct = await this.productModel.create(productRequest);
         return {
             success: true,
             statusCode: 201,
@@ -70,7 +69,7 @@ export class ProductService {
     }
 
     async findOne(id: string): Promise<ProductResponseDto> {
-        const product = await this.productModel.findById(id).lean();
+        const product = await this.productModel.findById(id);
         if (!product) {
             throw new HttpException({
                 success: false,
@@ -98,7 +97,7 @@ export class ProductService {
 
     async update(id: string, productRequest: UpdateProductDto): Promise<ProductResponseDto> {
         console.log(productRequest);
-        const updatedProduct = await this.productModel.findByIdAndUpdate(id, productRequest, { new: true }).exec();
+        const updatedProduct = await this.productModel.findByIdAndUpdate(id, productRequest, { new: true });
         if (!updatedProduct) {
             throw new HttpException({
                 success: false,
@@ -125,7 +124,7 @@ export class ProductService {
     }
 
     async delete(id: string): Promise<ProductResponseDto> {
-        const product = await this.productModel.findByIdAndDelete(id).exec();
+        const product = await this.productModel.findByIdAndDelete(id);
         if (!product) {
             throw new HttpException({
                 success: false,

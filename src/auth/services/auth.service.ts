@@ -25,8 +25,7 @@ export class AuthService {
                 message: 'User already exists'
             });
         }
-        const user = new this.userModel(authRequest);
-        await user.save();
+        const user = await this.userModel.create(authRequest);
         return {
             success: true,
             statusCode: 201,

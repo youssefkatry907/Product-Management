@@ -4,7 +4,7 @@ import { AuthRequestDto } from '../dtos/auth-request.dto';
 import { AuthResponseDto } from '../dtos/auth-response.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Permission } from '../../shared/rbac/permissions.decorator';
-import { Public } from 'src/shared/decorators/public.decorator';
+import { Public } from '../../shared/decorators/public.decorator';
 
 @Public()
 @ApiTags('auth')

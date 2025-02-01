@@ -6,7 +6,7 @@ export class ProductResponseDto {
     statusCode: number;
     message: string;
     data?: {
-        id: ObjectId;
+        id: string | ObjectId;
         name: string;
         description: string;
         price: number;
